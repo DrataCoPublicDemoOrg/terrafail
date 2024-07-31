@@ -45,6 +45,7 @@ resource "azurerm_redis_cache" "TerraFailCache" {
 # Storage
 # ---------------------------------------------------------------------
 resource "azurerm_storage_account" "TerraFailCache_storage" {
+  # Drata: Set [azurerm_storage_account.min_tls_version] to [TLS1_2] to ensure security policies are configured using the latest secure TLS version
   # Drata: Set [azurerm_storage_account.enable_https_traffic_only] to [true] to ensure secure protocols are being used to encrypt resource traffic
   name                          = "TerraFailCache_storage"
   resource_group_name           = azurerm_resource_group.TerraFailCache_rg.name
