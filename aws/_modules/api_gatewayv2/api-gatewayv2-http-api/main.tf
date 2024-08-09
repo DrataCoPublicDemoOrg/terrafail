@@ -24,7 +24,7 @@ resource "aws_apigatewayv2_domain_name" "TerraFailAPIv2_domain" {
   domain_name_configuration {
     certificate_arn = "arn:aws:acm:us-east-2:709695003849:certificate/2c0bef53-a821-4722-939e-d3c29a2dd3b3"
     endpoint_type   = "REGIONAL"
-    security_policy = "TLS_1_1"
+    security_policy = "TLS_1_2"
   }
 }
 
@@ -64,6 +64,7 @@ resource "aws_lb" "TerraFailAPIv2_lb" {
 }
 
 resource "aws_lb_listener" "TerraFailAPIv2_listener" {
+  # Drata: Set [aws_lb_listener.protocol] to one of ['HTTPS', 'TLS'] to ensure secure protocols are being used to encrypt resource traffic
   load_balancer_arn = aws_lb.TerraFailAPIv2_lb.arn
   port              = 99
 
@@ -192,6 +193,7 @@ resource "aws_kms_key" "TerraFailAPIv2_key" {
 # IAM
 # ---------------------------------------------------------------------
 resource "aws_iam_role" "TerraFailAPIv2_role" {
+  # Drata: Explicitly define resources for [aws_iam_role.inline_policy.policy] in adherence with the principal of least privilege. Avoid the use of overly permissive allow-all access patterns such as ([*])
   name = "TerraFailAPIv2_role"
   path = "/"
 

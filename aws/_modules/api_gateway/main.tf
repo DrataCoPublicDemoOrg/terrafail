@@ -59,7 +59,7 @@ resource "aws_api_gateway_deployment" "TerraFailAPI_deployment" {
 resource "aws_api_gateway_domain_name" "TerraFailAPI_domain_name" {
   certificate_arn = aws_acm_certificate_validation.TerraFailAPI_cert.certificate_arn
   domain_name     = "www.thisisthedarkside.com"
-  security_policy = "tls_1_1"
+  security_policy = "tls_1_2"
 }
 
 resource "aws_api_gateway_api_key" "TerraFailAPI_key" {
@@ -123,6 +123,7 @@ resource "aws_lambda_function" "TerraFailAPI_lambda_function" {
 # IAM
 # ---------------------------------------------------------------------
 resource "aws_iam_role" "TerraFailAPI_iam_role" {
+  # Drata: Explicitly define resources for [aws_iam_role.inline_policy.policy] in adherence with the principal of least privilege. Avoid the use of overly permissive allow-all access patterns such as ([*])
   name = "TerraFailAPI_iam_role"
 
   assume_role_policy = <<EOF

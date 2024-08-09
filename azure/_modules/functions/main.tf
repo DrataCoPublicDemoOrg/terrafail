@@ -23,12 +23,13 @@ resource "azurerm_linux_function_app" "TerraFailFunction_linux" {
     cors {
       allowed_origins = ["*"]
     }
-    minimum_tls_version      = "1.0"
+    minimum_tls_version      = 1.2
     remote_debugging_enabled = true
 
     ip_restriction {
       action     = "Allow"
       ip_address = "0.0.0.0/0"
+    # Drata: Ensure that [azurerm_linux_function_app.site_config.ip_restriction.ip_address] is explicitly defined and narrowly scoped to only allow trusted sources to access Web App
     }
   }
 }
@@ -47,12 +48,13 @@ resource "azurerm_windows_function_app" "TerraFailFunction_windows" {
     cors {
       allowed_origins = ["*"]
     }
-    minimum_tls_version      = "1.0"
+    minimum_tls_version      = 1.2
     remote_debugging_enabled = true
 
     ip_restriction {
       action     = "Allow"
       ip_address = "0.0.0.0/0"
+    # Drata: Ensure that [azurerm_windows_function_app.site_config.ip_restriction.ip_address] is explicitly defined and narrowly scoped to only allow trusted sources to access Web App
     }
   }
 }
@@ -69,6 +71,8 @@ resource "azurerm_service_plan" "TerraFailFunction_service_plan" {
 }
 
 resource "azurerm_storage_account" "TerraFailFunction_storage_linux" {
+  # Drata: Set [azurerm_storage_account.min_tls_version] to [TLS1_2] to ensure security policies are configured using the latest secure TLS version
+  # Drata: Set [azurerm_storage_account.enable_https_traffic_only] to [true] to ensure secure protocols are being used to encrypt resource traffic
   name                     = "TerraFailFunction_storage_linux"
   resource_group_name      = azurerm_resource_group.TerraFailFunction_rg.name
   location                 = azurerm_resource_group.TerraFailFunction_rg.location
@@ -81,6 +85,8 @@ resource "azurerm_storage_account" "TerraFailFunction_storage_linux" {
   }
 }
 resource "azurerm_storage_account" "TerraFailFunction_storage_windows" {
+  # Drata: Set [azurerm_storage_account.min_tls_version] to [TLS1_2] to ensure security policies are configured using the latest secure TLS version
+  # Drata: Set [azurerm_storage_account.enable_https_traffic_only] to [true] to ensure secure protocols are being used to encrypt resource traffic
   name                     = "TerraFailFunction_storage_windows"
   resource_group_name      = azurerm_resource_group.TerraFailFunction_rg.name
   location                 = azurerm_resource_group.TerraFailFunction_rg.location

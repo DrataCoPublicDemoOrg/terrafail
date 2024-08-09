@@ -20,12 +20,13 @@ resource "azurerm_linux_web_app" "TerraFailWeb_linux" {
     cors {
       allowed_origins = ["*"]
     }
-    minimum_tls_version      = "1.0"
+    minimum_tls_version      = 1.2
     remote_debugging_enabled = true
 
     ip_restriction {
       action     = "Allow"
       ip_address = "0.0.0.0/0"
+    # Drata: Ensure that [azurerm_linux_web_app.site_config.ip_restriction.ip_address] is explicitly defined and narrowly scoped to only allow trusted sources to access Web App
     }
   }
 }
@@ -42,11 +43,12 @@ resource "azurerm_windows_web_app" "TerraFailWeb_windows" {
     cors {
       allowed_origins = ["*"]
     }
-    minimum_tls_version      = "1.0"
+    minimum_tls_version      = 1.2
     remote_debugging_enabled = true
     ip_restriction {
       action     = "Allow"
       ip_address = "0.0.0.0/0"
+    # Drata: Ensure that [azurerm_windows_web_app.site_config.ip_restriction.ip_address] is explicitly defined and narrowly scoped to only allow trusted sources to access Web App
     }
   }
 }

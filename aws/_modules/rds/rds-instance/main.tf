@@ -55,7 +55,7 @@ resource "aws_db_proxy" "TerraFailDB_proxy" {
   vpc_subnet_ids = [aws_subnet.TerraFailDB_subnet.id, aws_subnet.TerraFailDB_subnet_2.id]
   engine_family  = "MYSQL"
   debug_logging  = true
-  require_tls    = false
+  require_tls    = true
 
   auth {
     secret_arn = aws_secretsmanager_secret.TerraFailDB_secret.arn
@@ -151,6 +151,8 @@ resource "aws_secretsmanager_secret_policy" "TerraFailDB_secret_policy" {
   secret_arn = aws_secretsmanager_secret.TerraFailDB_secret.arn
 
   policy = <<POLICY
+  # Drata: Explicitly define principals for [aws_secretsmanager_secret_policy.policy] in adherence with the principal of least privilege. Avoid the use of overly permissive allow-all access patterns such as (*)
+  # Drata: Explicitly define actions for [aws_secretsmanager_secret_policy.policy] in adherence with the principal of least privilege. Avoid the use of overly permissive allow-all access patterns such as (*)
 {
   "Version": "2012-10-17",
   "Statement": [
