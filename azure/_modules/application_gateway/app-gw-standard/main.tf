@@ -50,7 +50,7 @@ resource "azurerm_application_gateway" "TerraFailAppGateway" {
     name                  = "backend-http-settings"
     cookie_based_affinity = "Disabled"
     port                  = 63
-    protocol              = "http"
+    protocol              = "Https"
     request_timeout       = 0
 
     connection_draining {
@@ -63,13 +63,13 @@ resource "azurerm_application_gateway" "TerraFailAppGateway" {
     name                           = "http-listener-1"
     frontend_ip_configuration_name = "ip_config_1"
     frontend_port_name             = "front_end_port_1"
-    protocol                       = "HTTP"
+    protocol                       = "Https"
   }
 
   ssl_policy {
     policy_type          = "Predefined"
-    min_protocol_version = "TLSv1_1"
-    policy_name          = "AppGwSslPolicy20150501"
+    min_protocol_version = "TLSv1_2"
+    policy_name          = "AppGwSslPolicy20170401S"
   }
 
   ssl_certificate {
